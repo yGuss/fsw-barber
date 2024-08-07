@@ -20,7 +20,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
             className="rounded-lg object-cover"
           />
         </div>
-        {/* DESCRIÇÃO */}
+        {/* DIREITA */}
         <div className="space-y-2">
           <h3 className="text-sm font-semibold">{service.name}</h3>
           <p className="text-sm text-gray-400">{service.description}</p>
