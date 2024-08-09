@@ -13,7 +13,10 @@ const PhoneItem = ({ phone }: PhoneItemProps) => {
     toast.success("Telefone copiado com sucesso!")
   }
   return (
-    <div className="flex justify-between" key={phone}>
+    <div
+      className="flex justify-between gap-2 md:justify-center md:gap-4"
+      key={phone}
+    >
       {/* ESQUERDA */}
       <div className="flex items-center gap-2">
         <SmartphoneIcon />
