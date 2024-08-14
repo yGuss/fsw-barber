@@ -47,7 +47,7 @@ const Home = async () => {
       <div className="p-5">
         {/* TEXTO */}
         <h2 className="text-xl font-bold">
-          Olá, {session ? (session.user as any).name : "Visitante"}
+          Olá, {session?.user ? session.user.name : "bem vindo"}
         </h2>
         <p className="first-letter:uppercase">
           {format(new Date(), "eeee, d 'de' MMMM", {
