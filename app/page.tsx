@@ -84,9 +84,14 @@ const Home = async () => {
           ))}
         </div>
         {/* RECOMENDADOS */}
-        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
-          Recomendados
-        </h2>
+        <div className="flex flex-row justify-between">
+          <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+            Recomendados
+          </h2>
+          <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+            Arraste para o lado --&gt;
+          </h2>
+        </div>
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
           {barbershops.map((barbershop) => (
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
@@ -96,9 +101,14 @@ const Home = async () => {
           ))}
         </div>
         {/* POPULARES */}
-        <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
-          Populares
-        </h2>
+        <div className="flex flex-row justify-between">
+          <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+            Populares
+          </h2>
+          <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+            Arraste para o lado --&gt;
+          </h2>
+        </div>
         <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
           {popularBarbershops.map((barbershop) => (
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
