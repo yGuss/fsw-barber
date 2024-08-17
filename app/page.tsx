@@ -69,7 +69,7 @@ const Home = async () => {
             className="object-cover md:object-contain"
           />
         </div>
-        {/* AGENDAMENTO */}{" "}
+        {/* AGENDAMENTO */}
         {confirmedBookings.length > 0 && (
           <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
             Agendamentos

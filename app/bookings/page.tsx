@@ -16,10 +16,8 @@ const Bookings = async () => {
       <div className="mt-6 flex flex-col items-center justify-center gap-4 p-5 text-center">
         <h1 className="text-xl font-bold">Agendamentos</h1>
         <p className="text-gray-400">Você não tem agendamentos.</p>
-        <Button asChild>
-          <Link href="/" className="min-w-[40%] max-w-[40%]">
-            Voltar ao menu inicial
-          </Link>
+        <Button variant="default" asChild>
+          <Link href="/">Voltar ao menu inicial</Link>
         </Button>
       </div>
     )
