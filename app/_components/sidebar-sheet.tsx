@@ -1,19 +1,21 @@
 "use client"
 
-import { Button } from "./button"
+import { Button } from "./ui/button"
 import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react"
-import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./sheet"
-import { quickSearchOptions } from "../../_constants/search"
-import { Avatar, AvatarImage } from "./avatar"
+import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet"
+import { quickSearchOptions } from "../_constants/search"
+
 import Link from "next/link"
 import Image from "next/image"
-import { Dialog, DialogContent, DialogTrigger } from "./dialog"
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 import { signOut, useSession } from "next-auth/react"
-import SignInDialog from "../sign-in-dialog"
+import SignInDialog from "./sign-in-dialog"
+import { Avatar, AvatarImage } from "./ui/avatar"
 
 const SidebarSheet = () => {
   const { data } = useSession()
   const handleLogoutClick = () => signOut()
+  console.log(data?.user)
   return (
     <SheetContent className="overflow-y-auto">
       <SheetHeader>
@@ -24,7 +26,7 @@ const SidebarSheet = () => {
         {data?.user ? (
           <div className="flex items-center gap-2">
             <Avatar>
-              <AvatarImage src={data?.user.image ?? ""} />
+              <AvatarImage src={data?.user?.image ?? ""} />
             </Avatar>
             <div>
               <p className="font-bold">{data.user.name}</p>
@@ -33,7 +35,7 @@ const SidebarSheet = () => {
           </div>
         ) : (
           <>
-            <h2 className="font-bold">Olá, faca seu login!</h2>
+            <h2 className="font-bold">Olá, faça seu login!</h2>
             <Dialog>
               <DialogTrigger asChild>
                 <Button size="icon">

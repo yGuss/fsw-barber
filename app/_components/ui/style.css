@@ -1,0 +1,9 @@
+.input-none::-webkit-outer-spin-button,
+.input-none::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-none {
+  -moz-appearance: textfield;
+}

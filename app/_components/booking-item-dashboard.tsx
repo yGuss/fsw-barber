@@ -1,12 +1,10 @@
 "use client"
 
 import { Prisma } from "@prisma/client"
-import { Avatar, AvatarImage } from "./ui/avatar"
 import { Badge } from "./ui/badge"
 import { Card, CardContent } from "./ui/card"
 import { isFuture, format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import Image from "next/image"
 import {
   Sheet,
   SheetClose,
@@ -16,7 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet"
-import PhoneItem from "./phoneItem"
+
 import { Button } from "./ui/button"
 import {
   Dialog,
@@ -31,9 +29,13 @@ import { DialogClose } from "@radix-ui/react-dialog"
 import { deleteBooking } from "../_actions/delete-booking"
 import { toast } from "sonner"
 import { useState } from "react"
-import BookingSummary from "./booking-summary"
+
+import BookingSummaryDashboard from "./booking-summary-dashboard"
+import PhoneItem from "./phoneItem"
 
 interface BookingItemProps {
+  phone: string
+  name: string
   booking: Prisma.BookingGetPayload<{
     include: {
       service: {
@@ -42,17 +44,11 @@ interface BookingItemProps {
         }
       }
     }
-    phone: string
   }>
 }
 
-const BookingItem = ({ booking }: BookingItemProps) => {
-  const owners = ["Ruan", "Delson"]
+const BookingItemDashboard = ({ booking }: BookingItemProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
-
-  const {
-    service: { barbershop },
-  } = booking
   const isConfirmed = isFuture(booking.date)
   const handleCancelBooking = async () => {
     try {
@@ -82,12 +78,6 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                 {isConfirmed ? "Confirmado" : "Finalizado"}
               </Badge>
               <h3 className="font-semibold">{booking.service.name}</h3>
-              <div className="flex items-center gap-2">
-                <Avatar className="h-6 w-6">
-                  <AvatarImage src={booking.service.barbershop.imageUrl} />
-                </Avatar>
-                <p className="text-sm">{booking.service.barbershop.name}</p>
-              </div>
             </div>
             {/* DIREITA */}
             <div className="flex flex-col items-center justify-center border-l-2 border-solid px-5">
@@ -108,25 +98,6 @@ const BookingItem = ({ booking }: BookingItemProps) => {
         <SheetHeader>
           <SheetTitle className="text-left">Informações da Reserva</SheetTitle>
         </SheetHeader>
-        <div className="relative mt-6 flex h-[180px] w-full items-end">
-          <Image
-            alt={`Mapa da barbearia ${barbershop.name}`}
-            src="/map.png"
-            fill
-            className="rounded-xl object-cover"
-          />
-          <Card className="z-50 mx-5 mb-3 w-full rounded-xl">
-            <CardContent className="flex items-center gap-3 px-5 py-3">
-              <Avatar>
-                <AvatarImage src={barbershop.imageUrl} />
-              </Avatar>
-              <div>
-                <h3 className="font-bold">{barbershop.name}</h3>
-                <p className="text-xs">{barbershop.address}</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
 
         <div className="mt-6">
           <Badge
@@ -137,16 +108,16 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           </Badge>
 
           <div className="mb-3 mt-6">
-            <BookingSummary
-              barbershop={barbershop}
+            <BookingSummaryDashboard
+              userName={booking.name}
               service={booking.service}
               selectedDate={booking.date}
             />
-          </div>
-          <div className="space-y-3">
-            {barbershop.phones.map((phone, index) => (
-              <PhoneItem key={index} phone={phone} owners={owners[index]} />
-            ))}
+
+            <div className="my-3">
+              <p>Contato</p>
+            </div>
+            <PhoneItem phone={booking.phone} owners="" />
           </div>
         </div>
         <SheetFooter className="mt-6">
@@ -197,4 +168,4 @@ const BookingItem = ({ booking }: BookingItemProps) => {
   )
 }
 
-export default BookingItem
+export default BookingItemDashboard

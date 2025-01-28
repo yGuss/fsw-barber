@@ -2,7 +2,7 @@ import PhoneItem from "@/app/_components/phoneItem"
 import ServiceItem from "@/app/_components/service-item"
 import { Button } from "@/app/_components/ui/button"
 import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet"
-import SidebarSheet from "@/app/_components/ui/sidebar-sheet"
+import SidebarSheet from "@/app/_components/sidebar-sheet"
 import { db } from "@/app/_lib/prisma"
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
 import Image from "next/image"
@@ -16,6 +16,7 @@ interface BarbershopPageProps {
 }
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
+  const owners = ["Ruan", "Delson"]
   // chamar o banco de dados
   const barbershop = await db.barbershop.findUnique({
     where: {
@@ -85,21 +86,22 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
       {/* SERVIÇOS */}
       <div className="space-y-3 border-b border-solid p-5">
         <h2 className="text-xs font-bold uppercase text-gray-400">Serviços</h2>
-        <div className="space-y-3">
-          {barbershop.services.map((service) => (
-            <ServiceItem
-              key={service.id}
-              barbershop={JSON.parse(JSON.stringify(barbershop))}
-              service={JSON.parse(JSON.stringify(service))}
-            />
-          ))}
+        <div className="flex justify-center space-y-3 border-b border-solid p-5">
+          <div className="grid grid-cols-1 justify-between gap-2 md:grid-cols-2">
+            {barbershop.services.map((service) => (
+              <ServiceItem
+                key={service.id}
+                barbershop={JSON.parse(JSON.stringify(barbershop))}
+                service={JSON.parse(JSON.stringify(service))}
+              />
+            ))}
+          </div>
         </div>
       </div>
-
       {/* CONTATO */}
       <div className="space-y-3 p-5">
-        {barbershop.phones.map((phone) => (
-          <PhoneItem key={phone} phone={phone} />
+        {barbershop.phones.map((phone, index) => (
+          <PhoneItem key={phone} phone={phone} owners={owners[index]} />
         ))}
       </div>
     </div>

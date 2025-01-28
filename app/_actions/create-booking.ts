@@ -8,6 +8,9 @@ import { authOptions } from "../_lib/auth"
 interface CreateBookingParams {
   serviceId: string
   date: Date
+  name: string
+  phone: string
+  email: string
 }
 
 export const createBooking = async (params: CreateBookingParams) => {
@@ -17,8 +20,12 @@ export const createBooking = async (params: CreateBookingParams) => {
   }
 
   await db.booking.create({
-    data: { ...params, userId: (session.user as any).id },
+    data: {
+      ...params,
+      userId: (session.user as any).id,
+    },
   })
+
   revalidatePath("/barbershops/[id]")
   revalidatePath("/bookings")
 }

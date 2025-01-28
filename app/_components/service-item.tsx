@@ -22,7 +22,7 @@ import { Dialog, DialogContent } from "./ui/dialog"
 import SignInDialog from "./sign-in-dialog"
 import BookingSummary from "./booking-summary"
 import { useRouter } from "next/navigation"
-
+import "./ui/style.css"
 interface ServiceItemProps {
   service: BarbershopService
   barbershop: Pick<Barbershop, "name">
@@ -108,6 +108,8 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const [selectedTime, setSelectedTime] = useState<String | undefined>(
     undefined,
   )
+
+  const [customerPhone, setCustomerPhone] = useState<String>("")
   const [dayBookings, setDayBookings] = useState<Booking[]>([])
   const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState(false)
 
@@ -144,6 +146,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     setSelectedTime(undefined)
     setDayBookings([])
     setBookingSheetIsOpen(false)
+    setCustomerPhone("")
   }
 
   const handleDateSelect = (date: Date | undefined) => {
@@ -152,12 +155,16 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time)
   }
+
   const handleCreateBooking = async () => {
     try {
       if (!selectedDate) return
       await createBooking({
         serviceId: service.id,
         date: selectedDate,
+        email: data?.user?.email as string,
+        name: data?.user?.name as string,
+        phone: customerPhone as string,
       })
       toast.success("Reserva criada com sucesso!", {
         action: {
@@ -169,6 +176,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
       console.log(error)
       toast.error("Erro ao criar reserva!")
     }
+    console.log(customerPhone)
     handleBookingSheetOpenChange()
   }
 
@@ -178,8 +186,8 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
   }, [dayBookings, selectedDay])
 
   return (
-    <Card className="md:w-[720px]">
-      <CardContent className="flex items-center gap-3 p-3">
+    <Card className="flex max-w-[400px] sm:min-w-[300px] md:max-w-[450px]">
+      <CardContent className="flex flex-col items-center gap-3 p-3 md:flex-row">
         {/* IMAGEM */}
         <div className="relative max-h-[110px] min-h-[110px] min-w-[110px] max-w-[110px]">
           <Image
@@ -205,7 +213,12 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
           open={bookingSheetIsOpen}
           onOpenChange={handleBookingSheetOpenChange}
         >
-          <Button variant="secondary" size="sm" onClick={handleBookingClick}>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleBookingClick}
+            className="w-full"
+          >
             Reservar
           </Button>
 
@@ -213,7 +226,6 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             <SheetHeader>
               <SheetTitle className="text-center">Fazer reserva</SheetTitle>
             </SheetHeader>
-
             <div className="border-b border-solid py-5">
               <Calendar
                 mode="single"
@@ -247,28 +259,32 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
               />
             </div>
             {selectedDay && (
-              <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 px-5 [&::-webkit-scrollbar]:hidden">
-                {timeList.length > 0 ? (
-                  timeList.map((time) => (
-                    <Button
-                      key={time}
-                      variant={selectedTime === time ? "default" : "outline"}
-                      className="rounded-full"
-                      onClick={() => handleTimeSelect(time)}
-                    >
-                      {time}
-                    </Button>
-                  ))
-                ) : (
-                  <p className="text-xs">
-                    Não há horários disponíveis para este dia
-                  </p>
-                )}
+              <div className="flex flex-col">
+                <h2 className="mt-3 self-end px-2 text-xs font-bold uppercase text-gray-400">
+                  Arraste para o lado --&gt;
+                </h2>
+                <div className="flex gap-3 overflow-x-auto border-b border-solid p-3 px-5 [&::-webkit-scrollbar]:hidden">
+                  {timeList.length > 0 ? (
+                    timeList.map((time) => (
+                      <Button
+                        key={time}
+                        variant={selectedTime === time ? "default" : "outline"}
+                        className="rounded-full"
+                        onClick={() => handleTimeSelect(time)}
+                      >
+                        {time}
+                      </Button>
+                    ))
+                  ) : (
+                    <p className="text-xs">
+                      Não há horários disponíveis para este dia
+                    </p>
+                  )}
+                </div>
               </div>
             )}
-
             {selectedDate && (
-              <div className="p-5">
+              <div className="px-5 py-1">
                 <BookingSummary
                   barbershop={barbershop}
                   service={service}
@@ -276,11 +292,38 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 />
               </div>
             )}
-            <SheetFooter className="mt-5 px-5">
+            <div className="my-3 flex flex-col">
+              <label htmlFor="phone" className="mx-5 my-1">
+                Telefone:
+              </label>
+              <input
+                type="number"
+                className="input-none mx-5 rounded bg-secondary p-2"
+                id="phone"
+                placeholder="(DD) 9 9999-9999"
+                maxLength={11}
+                required
+                minLength={11}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+              />
+              {customerPhone.length !== 11 && customerPhone.length != 0 ? (
+                <p className="mx-5 mt-2 text-xs text-red-500">
+                  O número de telefone deve estar (DD) 9 9999-9999
+                </p>
+              ) : (
+                <></>
+              )}
+            </div>
+            <SheetFooter className="mt-2 px-5">
               <Button
                 onClick={handleCreateBooking}
                 className="w-full"
-                disabled={!selectedDay || !selectedTime}
+                disabled={
+                  !selectedDay ||
+                  !selectedTime ||
+                  customerPhone.length < 11 ||
+                  customerPhone.length > 11
+                }
               >
                 Confirmar
               </Button>

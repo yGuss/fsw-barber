@@ -5,9 +5,10 @@ import { toast } from "sonner"
 
 interface PhoneItemProps {
   phone: string
+  owners: string
 }
 
-const PhoneItem = ({ phone }: PhoneItemProps) => {
+const PhoneItem = ({ phone, owners }: PhoneItemProps) => {
   const handleCopyPhoneClick = (phone: string) => {
     navigator.clipboard.writeText(phone)
     toast.success("Telefone copiado com sucesso!")
@@ -21,6 +22,7 @@ const PhoneItem = ({ phone }: PhoneItemProps) => {
       <div className="flex items-center gap-2">
         <SmartphoneIcon />
         <p className="text-sm">{phone}</p>
+        <p className="mx-2 text-gray-500">{owners}</p>
       </div>
       {/* DIREITA */}
       <Button

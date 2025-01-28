@@ -5,13 +5,13 @@ import { ptBR } from "date-fns/locale"
 
 interface BookingSummaryProp {
   service: Pick<BarbershopService, "name" | "price">
-  barbershop: Pick<BarbershopService, "name">
+  userName: string
   selectedDate: Date
 }
 
-const BookingSummary = ({
+const BookingSummaryDashboard = ({
   service,
-  barbershop,
+  userName,
   selectedDate,
 }: BookingSummaryProp) => {
   return (
@@ -44,12 +44,12 @@ const BookingSummary = ({
         </div>
 
         <div className="flex items-center justify-between">
-          <h2 className="text-sm text-gray-400">Barbearia</h2>
-          <p className="text-sm">{barbershop.name}</p>
+          <h2 className="text-sm text-gray-400">Nome:</h2>
+          <p className="text-sm">{userName}</p>
         </div>
       </CardContent>
     </Card>
   )
 }
 
-export default BookingSummary
+export default BookingSummaryDashboard
