@@ -222,11 +222,11 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             Reservar
           </Button>
 
-          <SheetContent className="px-0">
+          <SheetContent className="px-0 py-3">
             <SheetHeader>
               <SheetTitle className="text-center">Fazer reserva</SheetTitle>
             </SheetHeader>
-            <div className="border-b border-solid py-5">
+            <div className="border-b border-solid">
               <Calendar
                 mode="single"
                 locale={ptBR}
@@ -260,10 +260,10 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             </div>
             {selectedDay && (
               <div className="flex flex-col">
-                <h2 className="mt-3 self-end px-2 text-xs font-bold uppercase text-gray-400">
+                <h2 className="mt-2 self-end px-2 text-xs font-bold uppercase text-gray-400">
                   Arraste para o lado --&gt;
                 </h2>
-                <div className="flex gap-3 overflow-x-auto border-b border-solid p-3 px-5 [&::-webkit-scrollbar]:hidden">
+                <div className="flex gap-3 overflow-x-auto border-b border-solid px-5 py-2 [&::-webkit-scrollbar]:hidden">
                   {timeList.length > 0 ? (
                     timeList.map((time) => (
                       <Button
@@ -292,7 +292,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 />
               </div>
             )}
-            <div className="my-3 flex flex-col">
+            <div className="flex flex-col">
               <label htmlFor="phone" className="mx-5 my-1">
                 Telefone:
               </label>
@@ -314,7 +314,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 <></>
               )}
             </div>
-            <SheetFooter className="mt-2 px-5">
+            <SheetFooter className="my-2 px-5">
               <Button
                 onClick={handleCreateBooking}
                 className="w-full"
