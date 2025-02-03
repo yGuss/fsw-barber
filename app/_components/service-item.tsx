@@ -293,7 +293,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
               </div>
             )}
             <div className="flex flex-col">
-              <label htmlFor="phone" className="mx-5 my-1">
+              <label htmlFor="phone" className="mx-5 my-2">
                 Telefone:
               </label>
               <input
@@ -314,7 +314,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 <></>
               )}
             </div>
-            <SheetFooter className="my-2 px-5">
+            <SheetFooter className="mt-3 px-5">
               <Button
                 onClick={handleCreateBooking}
                 className="w-full"

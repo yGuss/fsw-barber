@@ -16,7 +16,11 @@ import { getConfirmedBookings } from "./_data/get-confirmed-bookings"
 const Home = async () => {
   const session = await getServerSession(authOptions)
   const barbershops = await db.barbershop.findMany({})
-
+  const popularBarbershops = await db.barbershop.findMany({
+    orderBy: {
+      name: "desc",
+    },
+  })
   const confirmedBookings = await getConfirmedBookings()
   return (
     <>
@@ -70,6 +74,7 @@ const Home = async () => {
               Agendamentos
             </h2>
           )}
+
           <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
             {confirmedBookings.map((booking) => (
               <BookingItem
@@ -83,9 +88,28 @@ const Home = async () => {
             <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
               Recomendados
             </h2>
+            <h2 className="my-4 self-end text-xs font-bold uppercase text-gray-400">
+              Arraste para o lado --&gt;
+            </h2>
           </div>
-          <div className="flex justify-center overflow-auto md:justify-normal [&::-webkit-scrollbar]:hidden">
+
+          <div className="flex gap-4 overflow-auto md:justify-normal [&::-webkit-scrollbar]:hidden">
             {barbershops.map((barbershop) => (
+              <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+            ))}
+          </div>
+
+          {/* POPULARES */}
+          <div className="flex flex-row justify-between">
+            <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
+              Populares
+            </h2>
+            <h2 className="my-4 self-end text-xs font-bold uppercase text-gray-400">
+              Arraste para o lado --&gt;
+            </h2>
+          </div>
+          <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+            {popularBarbershops.map((barbershop) => (
               <BarbershopItem key={barbershop.id} barbershop={barbershop} />
             ))}
           </div>

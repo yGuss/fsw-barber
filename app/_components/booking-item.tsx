@@ -47,7 +47,7 @@ interface BookingItemProps {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
-  const owners = ["Ruan", "Delson"]
+  // const owners = ["Ruan", "Delson"]
   const [isSheetOpen, setIsSheetOpen] = useState(false)
 
   const {
@@ -70,7 +70,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
   return (
     <Sheet open={isSheetOpen} onOpenChange={handleSheetOpenChange}>
-      <SheetTrigger className="w-full min-w-[90%]">
+      <SheetTrigger className="w-full min-w-[90%] md:min-w-[20%]">
         <Card className="min-w-[90%]">
           <CardContent className="flex justify-between p-0">
             {/* ESQUERDA */}
@@ -145,7 +145,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           </div>
           <div className="space-y-3">
             {barbershop.phones.map((phone, index) => (
-              <PhoneItem key={index} phone={phone} owners={owners[index]} />
+              <PhoneItem key={index} phone={phone} owners="" />
             ))}
           </div>
         </div>

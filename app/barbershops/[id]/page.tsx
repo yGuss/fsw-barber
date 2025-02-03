@@ -16,7 +16,7 @@ interface BarbershopPageProps {
 }
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
-  const owners = ["Ruan", "Delson"]
+  // const owners = ["Ruan", "Delson"]
   // chamar o banco de dados
   const barbershop = await db.barbershop.findUnique({
     where: {
@@ -100,9 +100,10 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
       </div>
       {/* CONTATO */}
       <div className="space-y-3 p-5">
-        {barbershop.phones.map((phone, index) => (
-          <PhoneItem key={phone} phone={phone} owners={owners[index]} />
+        {barbershop.phones.map((phone) => (
+          <PhoneItem key={phone} phone={phone} owners="" />
         ))}
+        {/* owners={owners[index]} */}
       </div>
     </div>
   )
